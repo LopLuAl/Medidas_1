@@ -20,8 +20,6 @@ void setup(void)
 
 void loop(void)
 {
-  int16_t adc0, adc1, adc2, adc3;
-  float  volts0, mi_volts;
   /**
      CANAL 0 -----> SESNOR I
      CANAL 1 -----> SESNOR V
@@ -42,11 +40,12 @@ float tension_adc_2_tension_red(int16_t counts){
   float mean = 2.528f;
   float fsRange = 6.144f;
   float cte_sensor = 439.01; // VER FOTO HOJA MIA
+  
   return (  ( ((counts * (fsRange / 32768))-mean)*cte_sensor )*1000/1000.0f );
 }
 //COSAS FALOPAS EN EL CODIGO
 //1. RENDONDEO
-//2. DE DONDE SAQUE LA CTE DEL SENSOR V 
+//2. DE DONDE SAQUE LA CTE DEL SENSOR V  e I
 //https://arduino.stackexchange.com/questions/53604/print-with-round-towards-zero-instead-of-round-to-nearest
 //  float cte_sensor = 439.01; // VER FOTO HOJA MIA SENSOR V
 //Datasheet del sensor de I
