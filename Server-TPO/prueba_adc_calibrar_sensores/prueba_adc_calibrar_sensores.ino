@@ -25,23 +25,26 @@ void loop(void)
      CANAL 1 -----> SESNOR V
   **/
   /*SENSADO TENSION*/
-  Serial.print("Tension convertida a red");Serial.print("  "); Serial.print("  "); Serial.print(tension_adc_2_tension_red(ads.readADC_SingleEnded(1))); Serial.println("V");
-  Serial.print("Corriente convertida a red");Serial.print("  "); Serial.print("  "); Serial.print(tension_adc_2_corriente_red(ads.readADC_SingleEnded(0))); Serial.println("A");
-  delay(1000);
+  //Serial.print("Tension convertida a red");Serial.print("  "); Serial.print("  "); 
+  Serial.print(tension_adc_2_tension_red(ads.readADC_SingleEnded(1))); Serial.println("V");
+  //Serial.print("Corriente convertida a red");Serial.print("  "); Serial.print("  "); 
+  Serial.print(tension_adc_2_corriente_red(ads.readADC_SingleEnded(0))); Serial.println("A");
+  delay(1);
 }
 float tension_adc_2_corriente_red(int16_t counts){
   float mean = 2.515f;
   float fsRange = 6.144f;
+  float sqrt_2 = 1.41;
   float cte_sensor = 15.15; // VER DATASHEET P.7 YO TENGO SENSOR 20A 
   
-  return (  ( ((counts * (fsRange / 32768))- mean)* cte_sensor )*1000/1000.0f );
+  return (  ( ((counts * (fsRange / 32768))- mean)* cte_sensor*sqrt_2 )*1000/1000.0f );
 }
 float tension_adc_2_tension_red(int16_t counts){
   float mean = 2.528f;
   float fsRange = 6.144f;
   float cte_sensor = 439.01; // VER FOTO HOJA MIA
-  
-  return (  ( ((counts * (fsRange / 32768))-mean)*cte_sensor )*1000/1000.0f );
+  float sqrt_2 = 1.41;
+  return (  ( ((counts * (fsRange / 32768))-mean)*cte_sensor*sqrt_2 )*1000/1000.0f );
 }
 //COSAS FALOPAS EN EL CODIGO
 //1. RENDONDEO

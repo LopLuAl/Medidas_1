@@ -12,7 +12,8 @@
 #define ADS_ADDRESS 0x48
 #define MEDIR 1
 #define NO_MEDIR 0
-#define FREC_MUESTREO 0.0083/8 // esta en SEGUNDOS ESTE DIVIDO DOS ESTA FALOPA
+//Lo que habia antes#define FREC_MUESTREO 0.0083/8 // esta en SEGUNDOS ESTE DIVIDO DOS ESTA FALOPA
+#define FREC_MUESTREO 0.00833
 //Por Voy a tomar una fmax=60 Hz => por nyquist fs = 120 Hz => 8.33 mS
 
 
@@ -142,13 +143,15 @@ void handleNotFound(){
 float tension_adc_2_corriente_red(int16_t counts){
   float mean = 2.515f;
   float fsRange = 6.144f;
+  float sqrt_2 = 1.41;
   float cte_sensor = 15.15; // VER DATASHEET P.7 YO TENGO SENSOR 20A 
-  //https://pdf1.alldatasheet.com/datasheet-pdf/view/168326/ALLEGRO/ACS712.html
-  return (  ( ((counts * (fsRange / 32768))- mean)* cte_sensor )*1000/1000.0f );
+  
+  return (  ( ((counts * (fsRange / 32768))- mean)* cte_sensor*sqrt_2 )*1000/1000.0f );
 }
 float tension_adc_2_tension_red(int16_t counts){
   float mean = 2.528f;
   float fsRange = 6.144f;
   float cte_sensor = 439.01; // VER FOTO HOJA MIA
-  return (  ( ((counts * (fsRange / 32768))-mean)*cte_sensor )*1000/1000.0f );
+  float sqrt_2 = 1.41;
+  return (  ( ((counts * (fsRange / 32768))-mean)*cte_sensor*sqrt_2 )*1000/1000.0f );
 }
